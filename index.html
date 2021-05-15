@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+ <style type="text/css">
+.center-screen {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  min-height: 100vh;
+}
+</style>
+</head>
+<body>
+  <div class="center-screen">
+  	<form id="myform">
+  		<input type="file" id="file" name="file">
+  		<input type="submit" id="submit">
+  	</form>
+  	<div id="image">
+  		
+  	</div>
+  </div>
+</body>
+<script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
+<script type="text/javascript">
+  $(document).ready(function(){
+    
+    $("#myform").submit(function(w){
+    	w.preventDefault();
+
+    	$.ajax({
+           url:"insert.php",
+           type:"post",
+           data:new FormData(this),
+           processData:false,
+           contentType:false,
+           cache:false,
+           success:function(data)
+           {
+              fetch_img();
+           }
+    	});
+      });
+
+      fetch_img();
+       function fetch_img()
+       {
+       	$.ajax({
+           url:"fetch.php",
+           success:function(data)
+           {
+             $("#image").html(data);
+           }
+       	});
+       }
+   });
+</script>
+</html>
